@@ -1,11 +1,20 @@
-fn main() {
-    println!("Hello, world!");
-}
+use ju_tcs_rust_23_20::*;
+use std::path::PathBuf;
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn test_math() {
-        assert_eq!(1 + 1, 3);
+use clap::Parser;
+
+/// Simple program to get a
+#[derive(Parser, Debug)]
+enum Cmd {
+    Head { n: usize, path: PathBuf },
+    Tail { n: usize, path: PathBuf },
+}
+fn main() {
+    let lines = match Cmd::parse() {
+        Cmd::Head { n, path } => head(&path, n).unwrap(),
+        Cmd::Tail { n, path } => tail(&path, n).unwrap(),
+    };
+    for line in lines {
+        println!("{line}");
     }
 }
